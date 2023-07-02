@@ -12,18 +12,30 @@ export default function Example() {
         <div className="flex lg:flex-1">
           <a href="/" className="-m-1.5 p-1.5 flex justify-center items-center">
             <img className="h-8 w-auto" src={Quran} alt="" />
-            <p className='text-white'>Al - Qur'an online</p>
+            <p className="text-white">Al - Qur'an online</p>
           </a>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a href="/" className="text-sm font-semibold leading-6 text-white">
+          <a href="/listquran" className="text-sm font-semibold leading-6 text-white">
             Baca Quran Online
+          </a>
+          <a
+            href="murrotal"
+            className="text-sm font-semibold leading-6 text-white"
+          >
+            Murrotal
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {/* <a href="#" className="text-sm font-semibold leading-6 text-white">
             Log in <span aria-hidden="true">&rarr;</span>
           </a> */}
+          <a
+            href="audio"
+            className="text-sm font-semibold leading-6 flex justify-end text-white"
+          >
+            Set reminder
+          </a>
         </div>
       </nav>
     </header>

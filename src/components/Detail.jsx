@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/audio.css';
+import Swal from 'sweetalert2';
 
 const SurahList = () => {
   const [surahs, setSurahs] = useState([]);
@@ -46,6 +47,16 @@ const SurahList = () => {
     const currentSurahNumber = selectedSurah.nomor;
     const nextSurahNumber = currentSurahNumber - 1;
 
+    // Cek jika nextSurahNumber kurang dari 1
+    if (nextSurahNumber < 1) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ini adalah surat pertama, silahkan next ...',
+      });
+      return;
+    }
+
     try {
       const response = await fetch(
         `https://quran-api.santrikoding.com/api/surah/${nextSurahNumber}`
@@ -58,9 +69,20 @@ const SurahList = () => {
       console.error('Error fetching next surah:', error);
     }
   };
+
   const handleNextSurah = async () => {
     const currentSurahNumber = selectedSurah.nomor;
     const nextSurahNumber = currentSurahNumber + 1;
+
+    // Cek jika nextSurahNumber kurang dari 1
+    if (nextSurahNumber > 114) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ini adalah surat terakhir, silahkan previous ...',
+      });
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -113,7 +135,7 @@ const SurahList = () => {
             <span aria-hidden="true">&larr;</span> kembali
           </button>
           <input
-            type="text"
+            type="number"
             placeholder="Cari ayat ..."
             value={searchAyahKeyword}
             onChange={(event) => setSearchAyahKeyword(event.target.value)}
@@ -142,10 +164,6 @@ const SurahList = () => {
                 <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
                   tempat turun : {selectedSurah.tempat_turun}
                 </h5>
-                <audio controls className="w-full mt-2 audio-player">
-                  <source src={selectedSurah.audio} type="audio/mpeg" />
-                  Your browser does not support the audio element.
-                </audio>
               </div>
               <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
                 Q.S {selectedSurah.nama_latin}
@@ -221,10 +239,19 @@ const SurahList = () => {
                         >
                           {surat.nama}
                         </div>
-                        <div className="text-gray-500 text-xl mb-2">
+                        <div
+                          className="font-bold text-xl mb-2"
+                          style={{
+                            fontFamily: 'Arabic Font',
+                            fontSize: '24px',
+                          }}
+                        >
                           {surat.nama_latin}
                         </div>
                       </div>
+                      <p className="text-gray-700 text-base">
+                        Terjemahan: {surat.arti}
+                      </p>
                     </div>
                   </div>
                 </div>
